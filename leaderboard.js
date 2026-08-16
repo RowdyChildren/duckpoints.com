@@ -43,6 +43,19 @@ function normalizeItems(data) {
     );
 }
 
+function parseDiscordEmoji(value) {
+  const match = value.match(/^<(a?):([a-z0-9_]+):(\d{17,20})>?$/i);
+  if (!match) {
+    return null;
+  }
+
+  return {
+    animated: match[1].toLowerCase() === "a",
+    name: match[2],
+    id: match[3],
+  };
+}
+
 function renderLeaderboard(items) {
   const rows = document.createDocumentFragment();
 
@@ -56,7 +69,21 @@ function renderLeaderboard(items) {
     const itemCell = document.createElement("td");
     const itemName = document.createElement("span");
     itemName.className = "item-name";
-    itemName.textContent = entry.item;
+    const discordEmoji = parseDiscordEmoji(entry.item);
+    if (discordEmoji) {
+      const emojiImage = document.createElement("img");
+      const extension = discordEmoji.animated ? "gif" : "webp";
+      emojiImage.className = "discord-emoji";
+      emojiImage.src = `https://cdn.discordapp.com/emojis/${discordEmoji.id}.${extension}?size=48&quality=lossless`;
+      emojiImage.alt = `:${discordEmoji.name}:`;
+      emojiImage.title = `:${discordEmoji.name}:`;
+      emojiImage.loading = "lazy";
+      emojiImage.width = 28;
+      emojiImage.height = 28;
+      itemName.append(emojiImage);
+    } else {
+      itemName.textContent = entry.item;
+    }
 
     const itemType = document.createElement("span");
     itemType.className = "item-type";
