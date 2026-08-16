@@ -70,6 +70,35 @@
   color: #0e6e66;
 }
 
+@media (prefers-color-scheme: dark) {
+  .site-nav {
+    background: rgba(21, 33, 38, 0.94);
+    border-bottom-color: #2a3c42;
+  }
+
+  .site-nav a {
+    color: #bdc9c7;
+  }
+
+  .site-nav a:hover,
+  .site-nav__links a[aria-current="page"] {
+    color: #61c8bc;
+  }
+
+  .site-nav a:focus-visible {
+    outline-color: #61c8bc;
+  }
+
+  .site-nav__brand {
+    color: #eef5f3 !important;
+  }
+
+  .site-nav__mark {
+    background: #183b39;
+    color: #83ddd2;
+  }
+}
+
 @media (max-width: 600px) {
   .site-nav__inner {
     min-height: auto;
