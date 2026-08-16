@@ -48,8 +48,20 @@ footer .contact{color:var(--ink-soft)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media print{body{background:#fff}.ledger:after{background:#fff}a{border:none;color:inherit}}
 </style>
+<link rel="stylesheet" href="site.css">
 </head>
 <body>
+<nav class="site-nav" aria-label="Primary">
+  <div class="site-nav__inner">
+    <a class="site-nav__brand" href="index.html"><span class="site-nav__mark" aria-hidden="true">++</span>DuckBot</a>
+    <div class="site-nav__links">
+      <a href="index.html">Home</a>
+      <a href="leaderboard.html">Leaderboard</a>
+      <a href="privacy-policy.html">Privacy</a>
+      <a href="terms-of-service.html" aria-current="page">Terms</a>
+    </div>
+  </div>
+</nav>
 <div class="wrap">
 <header class="doc">
   <div class="brand">
