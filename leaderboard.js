@@ -7,6 +7,7 @@ const leaderboardTable = document.querySelector("#leaderboard-table");
 const searchInput = document.querySelector("#leaderboard-search");
 const resultCount = document.querySelector("#result-count");
 const guildIdDisplay = document.querySelector("#guild-id");
+const guildNameDisplay = document.querySelector("#guild-name");
 
 const numberFormatter = new Intl.NumberFormat("en-US");
 let leaderboardItems = [];
@@ -137,7 +138,22 @@ async function loadLeaderboard() {
       throw new Error(`Leaderboard request failed with status ${response.status}.`);
     }
 
-    leaderboardItems = normalizeItems(await response.json());
+    const data = await response.json();
+    if (Array.isArray(data)) {
+      leaderboardItems = normalizeItems(data);
+    } else {
+      if (
+        !data ||
+        !data.guild ||
+        data.guild.id !== guildId ||
+        typeof data.guild.name !== "string" ||
+        !data.guild.name.trim()
+      ) {
+        throw new Error("Leaderboard response contained invalid guild data.");
+      }
+      guildNameDisplay.textContent = data.guild.name.trim();
+      leaderboardItems = normalizeItems(data.items);
+    }
     renderLeaderboard(leaderboardItems);
     searchInput.disabled = false;
   } catch (error) {
